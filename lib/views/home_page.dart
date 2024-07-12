@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mini_shop_cubit/controllers/products_controller.dart';
-import 'package:mini_shop_cubit/controllers/products_state.dart';
+import 'package:mini_shop_cubit/cubit/products_controller.dart';
+import 'package:mini_shop_cubit/cubit/states/products_state.dart';
 import 'package:mini_shop_cubit/models/product.dart';
 import 'package:mini_shop_cubit/views/admin/add_product.dart';
 import 'package:mini_shop_cubit/views/widgets/my_drawer.dart';
@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
         ),
         onPressed: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (ctx) => AddProductScreen()));
+              context, MaterialPageRoute(builder: (ctx) => const AddProductScreen()));
         },
         icon: const Icon(
           Icons.add,
@@ -102,60 +102,57 @@ class _HomePageState extends State<HomePage> {
           }
           var products = (state as LoadedState).products;
 
-          return Expanded(
-            child: Column(
-              children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Have ${products.length} products",
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+          return Column(
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Have ${products.length} products",
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
-                      FilledButton(
-                        onPressed: () {},
-                        child: const Row(
-                          children: [
-                            Text(
-                              "Sort by",
-                            ),
-                            Icon(
-                              Icons.arrow_drop_down_rounded,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: GridView.builder(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 50),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 1,
-                      mainAxisSpacing: 90,
-                      crossAxisSpacing: 20,
                     ),
-                    itemCount: products.length,
-                    itemBuilder: (context, index) {
-                      Product product = products[index];
-                      return ProductItem(
-                        product: product,
-                      );
-                    },
-                  ),
+                    FilledButton(
+                      onPressed: () {},
+                      child: const Row(
+                        children: [
+                          Text(
+                            "Sort by",
+                          ),
+                          Icon(
+                            Icons.arrow_drop_down_rounded,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              Expanded(
+                child: GridView.builder(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 1,
+                    mainAxisSpacing: 90,
+                    crossAxisSpacing: 20,
+                  ),
+                  itemCount: products.length,
+                  itemBuilder: (context, index) {
+                    Product product = products[index];
+                    return ProductItem(
+                      product: product,
+                    );
+                  },
+                ),
+              ),
+            ],
           );
         },
       ),

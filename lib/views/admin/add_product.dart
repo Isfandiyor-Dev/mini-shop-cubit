@@ -3,7 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mini_shop_cubit/controllers/products_controller.dart';
+import 'package:mini_shop_cubit/cubit/products_controller.dart';
+import 'package:mini_shop_cubit/models/product.dart';
 import 'package:mini_shop_cubit/views/widgets/mu_text_field.dart';
 
 // ignore: must_be_immutable
@@ -20,7 +21,7 @@ class AddProductScreen extends StatefulWidget {
 class _AddProductScreenState extends State<AddProductScreen> {
   final _formKey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
-  List<File>? images;
+  File? image;
 
   final descriptionController = TextEditingController();
   final nameController = TextEditingController();
@@ -29,10 +30,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
   final titleController = TextEditingController();
 
   Future<void> _pickImage(ImageSource source, int imageIndex) async {
-    List<XFile>? pickedFile = await _picker.pickMultiImage();
+    XFile? pickedFile = await _picker.pickImage(source: source);
     setState(() {
-      if (pickedFile.isNotEmpty) {
-        images!.addAll(pickedFile.map((image) => File(image.path)).toList());
+      if (pickedFile != null) {
+        image = File(pickedFile.path);
       }
     });
   }
@@ -47,18 +48,22 @@ class _AddProductScreenState extends State<AddProductScreen> {
           child: CircularProgressIndicator(),
         ),
       );
-      BlocProvider.of<ProductController>(context).addProduct({
-        'id': UniqueKey().toString(),
-        'name': nameController.text,
-        'title': titleController.text,
-        'description': descriptionController.text,
-        'rating': num.parse(ratingController.text),
-        'price': num.parse(priceController.text),
-      }, images!).then((value) {
+      BlocProvider.of<ProductController>(context)
+          .addProduct(
+        Product(
+          id: UniqueKey().toString(),
+          name: nameController.text,
+          title: titleController.text,
+          description: descriptionController.text,
+          rating: num.parse(ratingController.text),
+          price: num.parse(priceController.text),
+          image: image,
+        ),
+      )
+          .then((value) {
         Navigator.pop(context);
         Navigator.pop(context);
       });
-
     }
   }
 
@@ -82,38 +87,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   height: 2,
                 ),
               ),
-              _buildImagePicker(1, images!.first),
+              _buildImagePicker(1, image),
               const Divider(),
-              const Text(
-                "Second Image",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  height: 2,
-                ),
-              ),
-              _buildImagePicker(2, images!.first),
-              const Divider(),
-              const Text(
-                "Third Image",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  height: 2,
-                ),
-              ),
-              _buildImagePicker(3, images!.first),
-              const SizedBox(height: 20),
-              MyTextField(
-                labelText: "Name",
-                validation: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'Please enter a name';
-                  }
-                  return null;
-                },
-                textEditingController: nameController,
-              ),
               const SizedBox(height: 20),
               MyTextField(
                 labelText: "Title",

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mini_shop_cubit/controllers/favorites_controller.dart';
-import 'package:mini_shop_cubit/controllers/products_controller.dart';
+import 'package:mini_shop_cubit/cubit/favorites_controller.dart';
+import 'package:mini_shop_cubit/cubit/products_controller.dart';
+import 'package:mini_shop_cubit/themes/theme_cubit.dart';
 import 'package:mini_shop_cubit/views/home_page.dart';
 
 void main() {
@@ -17,10 +18,19 @@ class MainApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (ctx) => ProductController()),
         BlocProvider(create: (ctx) => FavoritesController()),
+        BlocProvider(create: (ctx) => ThemeCubit()),
       ],
-      child: const MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: HomePage(),
+      child: BlocBuilder<ThemeCubit, Brightness>(
+        builder: (context, theme) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              brightness: theme,
+              colorSchemeSeed: Colors.lightGreen,
+            ),
+            home: const HomePage(),
+          );
+        },
       ),
     );
   }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 class Product {
   String id;
   String name;
@@ -5,7 +7,7 @@ class Product {
   String description;
   num rating;
   num price;
-  String? imageUrl;
+  File? image;
   bool isFavorite;
 
   Product({
@@ -15,7 +17,7 @@ class Product {
     required this.description,
     required this.rating,
     required this.price,
-    required this.imageUrl,
+    required this.image,
     this.isFavorite = false,
   });
 

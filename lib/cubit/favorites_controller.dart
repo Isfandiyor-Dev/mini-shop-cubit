@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mini_shop_cubit/controllers/favorites_state.dart';
+import 'package:mini_shop_cubit/cubit/states/favorites_state.dart';
 import 'package:mini_shop_cubit/models/product.dart';
 
 class FavoritesController extends Cubit<FavoritesState> {
@@ -12,18 +12,22 @@ class FavoritesController extends Cubit<FavoritesState> {
       emit(LoadingFavoritesState());
       await Future.delayed(const Duration(seconds: 1));
       bool isInFavorite = false;
-      for (var element in favorites) {
+
+      // `List`ning nusxasini yaratamiz va shunda iteratsiya paytida o'zgartirishlar kiritamiz
+      final copyFavorites = List<Product>.from(favorites);
+      for (var element in copyFavorites) {
         if (element.id == product.id) {
           isInFavorite = true;
           favorites.remove(element);
         }
       }
-      if(!isInFavorite){
+
+      if (!isInFavorite) {
         favorites.add(product);
       }
       emit(LoadedFavoritesState(favorites));
     } catch (e) {
-      print("Xatolik sodir bo'ldi");
+      print("Xatolik sodir bo'ldi $e");
       emit(ErrorFavoritesState("Sevimli mahsulotlarni qo'sha olmadim"));
     }
   }
@@ -36,7 +40,7 @@ class FavoritesController extends Cubit<FavoritesState> {
       favorites.remove(product);
       emit(LoadedFavoritesState(favorites));
     } catch (e) {
-      print("Xatolik sodir bo'ldi");
+      print("Xatolik sodir bo'ldi $e");
       emit(ErrorFavoritesState("Sevimli mahsulotlarni olib tashlay olmadim"));
     }
   }
@@ -47,7 +51,7 @@ class FavoritesController extends Cubit<FavoritesState> {
       await Future.delayed(const Duration(seconds: 1));
       emit(LoadedFavoritesState(favorites));
     } catch (e) {
-      print("Xatolik sodir bo'ldi");
+      print("Xatolik sodir bo'ldi $e");
       emit(ErrorFavoritesState("Sevimli mahsulotlarni ololmadim"));
     }
   }

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 // import 'package:mini_shop_cubit/controllers/products_controller.dart';
 import 'package:mini_shop_cubit/models/product.dart';
 
-
 // ignore: must_be_immutable
 class DetailsScreen extends StatefulWidget {
   bool isAdmin;
@@ -98,12 +97,15 @@ class _DetailsScreenState extends State<DetailsScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
-                    width: 200,
-                    height: 300,
-                    child: Image.network(
-                      widget.product.imageUrl!,
-                      fit: BoxFit.cover,
-                    )),
+                  width: 200,
+                  height: 300,
+                  child: widget.product.image != null
+                      ? Image.file(
+                          widget.product.image!,
+                          fit: BoxFit.cover,
+                        )
+                      : null,
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [

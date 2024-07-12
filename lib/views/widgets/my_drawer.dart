@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mini_shop_cubit/views/favorites_page.dart';
+import 'package:mini_shop_cubit/views/settings_page.dart';
 
 class MyDrawer extends StatefulWidget {
   const MyDrawer({super.key});
@@ -31,8 +33,12 @@ class _MyDrawerState extends State<MyDrawer> {
             leading: const Icon(Icons.favorite),
             title: const Text('Favorites'),
             onTap: () {
-              Navigator.pop(context);
-              // Add navigation to Favorites screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (ctx) => const FavoritesPage(),
+                ),
+              );
             },
           ),
           ListTile(
@@ -47,8 +53,12 @@ class _MyDrawerState extends State<MyDrawer> {
             leading: const Icon(Icons.settings),
             title: const Text('Settings'),
             onTap: () {
-              Navigator.pop(context);
-              // Add navigation to Settings screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (ctx) => const SettingsPage(),
+                ),
+              );
             },
           ),
           ListTile(

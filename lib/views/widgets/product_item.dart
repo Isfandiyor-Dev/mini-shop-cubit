@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mini_shop_cubit/controllers/favorites_controller.dart';
-import 'package:mini_shop_cubit/controllers/favorites_state.dart';
-import 'package:mini_shop_cubit/controllers/products_controller.dart';
+import 'package:mini_shop_cubit/cubit/favorites_controller.dart';
+import 'package:mini_shop_cubit/cubit/states/favorites_state.dart';
+import 'package:mini_shop_cubit/cubit/products_controller.dart';
 import 'package:mini_shop_cubit/models/product.dart';
 import 'package:mini_shop_cubit/views/detail_screen.dart';
 
@@ -28,12 +28,15 @@ class _ProductItemState extends State<ProductItem> {
       isLoading = true;
     });
 
-    // await Future.delayed(Duration(seconds: 2));
     await BlocProvider.of<FavoritesController>(context)
         .addFavorites(widget.product);
-    // ignore: use_build_context_synchronously
+
+    if (!mounted) return; // State o'chirilganligini tekshirish
+
     await BlocProvider.of<ProductController>(context)
         .toggleFavorite(widget.product.id);
+
+    if (!mounted) return; // State o'chirilganligini tekshirish
 
     setState(() {
       isLoading = false;
@@ -63,7 +66,7 @@ class _ProductItemState extends State<ProductItem> {
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
-                  color: Colors.grey.shade200,
+                  color: Theme.of(context).colorScheme.inversePrimary,
                 ),
                 height: 220,
               ),
@@ -73,10 +76,12 @@ class _ProductItemState extends State<ProductItem> {
                 child: SizedBox(
                   height: 130,
                   width: 90,
-                  child: Image.network(
-                    widget.product.imageUrl!,
-                    fit: BoxFit.cover,
-                  ),
+                  child: widget.product.image != null
+                      ? Image.file(
+                          widget.product.image!,
+                          fit: BoxFit.cover,
+                        )
+                      : null,
                 ),
               ),
               Positioned(
