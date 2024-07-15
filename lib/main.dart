@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mini_shop_cubit/cubit/cart_controller.dart';
 import 'package:mini_shop_cubit/cubit/favorites_controller.dart';
+import 'package:mini_shop_cubit/cubit/order_controller.dart';
 import 'package:mini_shop_cubit/cubit/products_controller.dart';
 import 'package:mini_shop_cubit/themes/theme_cubit.dart';
 import 'package:mini_shop_cubit/views/home_page.dart';
@@ -19,6 +21,8 @@ class MainApp extends StatelessWidget {
         BlocProvider(create: (ctx) => ProductController()),
         BlocProvider(create: (ctx) => FavoritesController()),
         BlocProvider(create: (ctx) => ThemeCubit()),
+        BlocProvider(create: (ctx) => CartCubit()),
+        BlocProvider(create: (ctx) => OrderController())
       ],
       child: BlocBuilder<ThemeCubit, Brightness>(
         builder: (context, theme) {

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mini_shop_cubit/views/favorites_page.dart';
+import 'package:mini_shop_cubit/views/orders_screen.dart';
 import 'package:mini_shop_cubit/views/settings_page.dart';
 
 class MyDrawer extends StatefulWidget {
@@ -30,6 +31,19 @@ class _MyDrawerState extends State<MyDrawer> {
             ),
           ),
           ListTile(
+            leading: const Icon(Icons.shopping_cart_checkout_rounded),
+            title: const Text('Orders'),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (ctx) => OrdersScreen(),
+                ),
+              );
+            },
+          ),
+          ListTile(
             leading: const Icon(Icons.favorite),
             title: const Text('Favorites'),
             onTap: () {
@@ -39,14 +53,6 @@ class _MyDrawerState extends State<MyDrawer> {
                   builder: (ctx) => const FavoritesPage(),
                 ),
               );
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.category),
-            title: const Text('Category'),
-            onTap: () {
-              Navigator.pop(context);
-              // Add navigation to Category screen
             },
           ),
           ListTile(
@@ -68,7 +74,6 @@ class _MyDrawerState extends State<MyDrawer> {
             title: const Text('Logout'),
             onTap: () {
               Navigator.pop(context);
-              // Add navigation to more items
             },
           ),
         ],

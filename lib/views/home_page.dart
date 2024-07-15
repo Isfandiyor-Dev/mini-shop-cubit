@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
-      context.read<ProductController>().getProdcuts();
+      context.read<ProductController>().getProducts();
     });
   }
 
@@ -35,8 +35,8 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: Colors.lightGreen,
         ),
         onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (ctx) => const AddProductScreen()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (ctx) => const AddProductScreen()));
         },
         icon: const Icon(
           Icons.add,

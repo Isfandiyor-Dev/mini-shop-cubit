@@ -45,10 +45,10 @@ class ProductController extends Cubit<ProductsState> {
 
   ProductController() : super(InitialState());
 
-  Future<void> getProdcuts() async {
+  Future<void> getProducts() async {
     try {
       emit(LoadingState());
-      await Future.delayed(const Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 1));
       emit(LoadedState(products));
     } catch (e) {
       print("Xatolik sodir bo'ldi");
@@ -59,7 +59,7 @@ class ProductController extends Cubit<ProductsState> {
   Future<void> addProduct(product) async {
     try {
       emit(LoadingState());
-      await Future.delayed(const Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 1));
       products.add(product);
       emit(LoadedState(products));
     } catch (e) {

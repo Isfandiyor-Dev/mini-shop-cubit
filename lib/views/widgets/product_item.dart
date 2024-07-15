@@ -54,7 +54,6 @@ class _ProductItemState extends State<ProductItem> {
               context,
               MaterialPageRoute(
                 builder: (ctx) => DetailsScreen(
-                  isAdmin: widget.isAdmin,
                   product: widget.product,
                 ),
               ),
